@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  host: localhost
+  database: bluevan_development
+  min_messages: warning
+
+development:
+  adapter: postgresql
+  host: localhost
+  database: bluevan_test
+  min_messages: warning

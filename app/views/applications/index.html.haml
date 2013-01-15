@@ -1,0 +1,15 @@
+Hello #{current_user.name}
+
+= link_to 'logout', session_path, :method => 'delete'
+
+%h2 Your applications
+
+%table
+  %tbody
+    - @applications.each do |application|
+      %tr
+        %td= application.name
+        %td deploy@bluevan.net:#{application.name}
+        %td= link_to 'delete', application_path(application), :method => :delete, :confirm => 'Are you sure?'
+
+= link_to 'create a new application', new_application_path

@@ -1,0 +1,10 @@
+- @application.errors.full_messages.each do |message|
+  %p= message
+
+= form_for @application do |f|
+  %p
+    = f.label :name
+    = f.text_field :name
+
+  %p
+    = f.submit
