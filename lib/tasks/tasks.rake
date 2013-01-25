@@ -48,18 +48,11 @@ task :post_receive => :environment do
     end
   end
 
-  environment = {
-    'RAILS_ENV' => 'production',
-    'RACK_ENV' => 'production',
-    'APP_NAME' => 'app_name',
-    'DATABASE_URL' => "postgres://app:app@localhost/#{app_name}"
-  }
+  application = Application.find_by_name!(app_name)
+  application.generate_env_file
+end
 
-  # Create environment file
-  File.open("#{build_dir}/.env", 'w') do |file|
-    environment.each do |key, value|
-      file.puts "#{key}=#{value}"
-    end
-  end
-
+desc "Generates upstart scripts"
+task :generate_upstart => :environment do
+  Application.all.each(&:generate_upstart)
 end
