@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
     :token_url => 'https://github.com/login/oauth/access_token',
     :token_method => :post)
 
+  def self.jon
+    find_by_github_id(35914)
+  end
+
   def self.find_or_create_by_oauth2(api_client)
     response = JSON.parse(api_client.get('/user').body)
 

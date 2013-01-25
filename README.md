@@ -26,7 +26,7 @@ Setting the postgres password
 
 Link the post-receive hook
 
-    ln -s ~/slugs/bluevan/post-receive.rb repos/myproject/hooks/post-receive
+    ln -s ~/slugs/bluevan/post-receive ~/repos/myproject/hooks/post-receive
 
 Locally
 
