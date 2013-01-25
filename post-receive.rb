@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 require 'yaml'
+require 'fileutils'
+
+# TODO:
+# - Use a new RELEASE_DIR for each deploy
+# - Restart the app after a deploy
 
 REPO_NAME = Dir.pwd.split('/').last.freeze
 HOME_DIR = '/home/app'.freeze
@@ -10,12 +15,19 @@ CACHE_DIR = "#{HOME_DIR}/cache/#{REPO_NAME}".freeze
 Dir.mkdir(RELEASE_DIR) unless File.exists?(RELEASE_DIR)
 Dir.mkdir(CACHE_DIR) unless File.exists?(CACHE_DIR)
 
+# Ensure there is a clean RELEASE_DIR
+if File.exists?(RELEASE_DIR)
+  FileUtils.rm_rf(Dir.glob(RELEASE_DIR + '/*'))
+else
+  Dir.mkdir(RELEASE_DIR)
+end
+
 system({'GIT_WORK_TREE' => RELEASE_DIR}, 'git reset --hard master')
 
 environment = {
   'RAILS_ENV' => 'production',
   'RACK_ENV' => 'production',
-  'DATABASE_URL' => "postgres://app@app:localhost/#{REPO_NAME}"
+  'DATABASE_URL' => "postgres://app:app@localhost/#{REPO_NAME}"
 }
 
 Dir.glob("#{BUILDPACK_PARENT_DIR}/*").each do |buidpack_dir|
